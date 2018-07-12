@@ -50,10 +50,5 @@ node {
         sh "docker rmi -f ${ART_DOCKER_REGISTRY}/node-version:${env.BUILD_NUMBER}"
         sh "docker rmi -f ${ART_DOCKER_REGISTRY}/node-version:latest"
         sh "docker rmi -f node-version"
-        /*
-        Capture and publish build information to Artifactory
-        */
-        buildInfo.env.collect()
-        rtServer.publishBuildInfo buildInfo
     }
 }
