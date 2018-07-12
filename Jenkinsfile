@@ -1,11 +1,14 @@
 node {
     def app
     def rtServer = Artifactory.newServer url: ART_SERVER_URL, credentialsId: CREDENTIAL_ID
+    def rtDocker = Artifactory.docker server: rtServer
     def buildInfo = Artifactory.newBuildInfo()
+    
+    buildInfo.env.capture = true
 
     stage('Clone repository') {
         /* Let's make sure we have the repository cloned to our workspace */
-        git url: 'https://github.com/jainishshah17/node-version.git'
+        git url: 'https://github.com/craiglpeters/node-version.git'
     }
 
     stage('Build image') {
@@ -37,6 +40,11 @@ node {
         docker.withRegistry('https://'+ART_DOCKER_REGISTRY, CREDENTIAL_ID) {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
+            tagDockerApp = "${ARTDOCKER_REGISTRY}/node-version:${env.BUILD_NUMBER}"
+            println "Docker push" + tagDockerApp
+            buildInfo = rtDocker.push(tagDockerApp, buildInfo)
+            println "Docker Buildinfo"
+            rtServer.publishBuildInfo buildInfo
         }
         /*
         Remove docker images
