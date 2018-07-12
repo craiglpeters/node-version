@@ -38,9 +38,7 @@ node {
          * Second, the 'latest' tag.
          * Pushing multiple tags is cheap, as all the layers are reused. */
         docker.withRegistry('https://'+ART_DOCKER_REGISTRY, CREDENTIAL_ID) {
-            app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
-            tagDockerApp = "${ARTDOCKER_REGISTRY}/node-version:${env.BUILD_NUMBER}"
+            def tagDockerApp = "${ART_DOCKER_REGISTRY}/node-version:${env.BUILD_NUMBER}"
             println "Docker push" + tagDockerApp
             buildInfo = rtDocker.push(tagDockerApp, buildInfo)
             println "Docker Buildinfo"
