@@ -14,7 +14,7 @@ node {
     stage('Build image') {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
-        app = docker.build("node-version")
+        app = docker.build("node-version:${env.BUILD_NUMBER}")
     }
 
     stage('Test image') {
