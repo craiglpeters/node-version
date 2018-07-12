@@ -1,4 +1,4 @@
-FROM node:6
+FROM docker.artifactory/node:6
 
 # Create app directory
 RUN mkdir -p /usr/src/app
