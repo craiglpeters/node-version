@@ -40,7 +40,7 @@ node {
         docker.withRegistry('https://'+ART_DOCKER_REGISTRY, CREDENTIAL_ID) {
             def tagDockerApp = "${ART_DOCKER_REGISTRY}/node-version:${env.BUILD_NUMBER}"
             println "Docker push" + tagDockerApp
-            buildInfo = rtDocker.push(tagDockerApp, buildInfo)
+            buildInfo = rtDocker.push(tagDockerApp, DOCKER_REPO, buildInfo)
             println "Docker Buildinfo"
             rtServer.publishBuildInfo buildInfo
         }
