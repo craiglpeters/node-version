@@ -15,7 +15,9 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
         sh "sed -i 's/docker.artifactory/${ART_DOCKER_REGISTRY}/' Dockerfile"
-        app = docker.build("${ART_DOCKER_REGISTRY}/node-version:${env.BUILD_NUMBER}")
+        docker.withRegistry('https://'+ART_DOCKER_REGISTRY, CREDENTIAL_ID) {
+            app = docker.build("${ART_DOCKER_REGISTRY}/node-version:${env.BUILD_NUMBER}")
+        }
     }
 
     stage('Test image') {
