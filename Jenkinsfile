@@ -15,7 +15,6 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
         sh "sed -i 's/docker.artifactory/${ART_DOCKER_REGISTRY}/' Dockerfile"
-        sh "docker login -u 'admin' -p 'r1KMt64RN8' ${ART_DOCKER_REGISTRY}"
         app = docker.build("${ART_DOCKER_REGISTRY}/node-version:${env.BUILD_NUMBER}")
     }
 
